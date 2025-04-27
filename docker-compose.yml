@@ -1,12 +1,42 @@
 version: '3.8'
 
 services:
-  dataservice:
-    build: ./DataService
+  healthdataclient:
+    build: ./HealthDataClient
     ports:
       - "5000:5000"
     volumes:
-      - ./DataService:/app
+      - ./HealthDataClient:/app
+    environment:
+      - DATABASESERVICE_URL=http://databaseservice:5001
+    depends_on:
+      - databaseservice
+      - database
     restart: unless-stopped
 
-  # Future: you can add WebApp, MobileApp here
+  databaseservice:
+    build: ./DatabaseService
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./DatabaseService:/app
+    environment:
+      - DATABASE_URL=postgresql://postgres:yourpassword@database:5432/pthealthai
+    depends_on:
+      - database
+    restart: unless-stopped
+
+  database:
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: yourpassword
+      POSTGRES_DB: pthealthai
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:
