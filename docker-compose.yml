@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  dataservice:
+    build: ./DataService
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./DataService:/app
+    restart: unless-stopped
+
+  # Future: you can add WebApp, MobileApp here

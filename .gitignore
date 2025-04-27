@@ -1,9 +1,25 @@
 # Python
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
 
 # Virtual Environment
 venv/
+ENV/
+env/
 
-# VS Code settings
+# Node (for frontend if using React/Vue/etc.)
+node_modules/
+dist/
+
+# Docker
+.dockerignore
+Dockerfile
+
+# VS Code
 .vscode/
+
+# System files
+.DS_Store
+Thumbs.db
